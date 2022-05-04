@@ -1,9 +1,20 @@
 ---
-title: "Tarea IV"
-author: "Macroeconomía II"
-date: "5/4/2022"
-output: github_document
+header-includes:
+- \usepackage{enumitem}
+- \usepackage{amsmath}
+- \usepackage{float}
+- \usepackage{pdfpages}
+- \usepackage{caption}
+- \usepackage[spanish]{babel}\decimalpoint
+output:
+  pdf_document: default
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=T, message=FALSE, warning=FALSE, 
+                       fig.align='center', eval=T)
+```
+
 
 Realice los siguientes ejercicios con el equipo señalado.
 
@@ -28,15 +39,220 @@ Realice los siguientes ejercicios con el equipo señalado.
 
 
 
-**3. Estudie al gobierno mexicano y a los corporativos mexicanos desde el punto de vista de su endeudamiento [1 hora, 1 punto cada inciso]:**
+# Ejercicio 3 
 
-**(a) Utilice datos del SIE/Valores en Circulación y de SIE/Finanzas públi- cas del Banco de México para describir la evolución a lo largo del tiempo de la composición de la deuda del gobierno mexicano por tipo de instrumento, madurez y moneda. Señale la implicación de lo que encuentre para el riesgo de impago.**
+**Estudie al gobierno mexicano y a los corporativos mexicanos desde el punto de vista de su endeudamiento [1 hora, 1 punto cada inciso]:**
+
+```{r librerias, echo=FALSE}
+#Librerias Necesarias
+pacman::p_load(ggplot2,dplyr)
+```
 
 
-**(b) Utilice datos del SIE/Valores en Circulación o para describir la com- posición a lo largo del tiempo de la deuda del del sector privado no financiero mexicano por madurez y moneda. Señale la implicación de lo que encuentre para el riesgo de impago.**
+## (a) Utilice datos del SIE/Valores en Circulación y de SIE/Finanzas públicas del Banco de México para describir la evolución a lo largo del tiempo de la composición de la deuda del gobierno mexicano por tipo de instrumento, madurez y moneda. Señale la implicación de lo que encuentre para el riesgo de impago.
+
+Con base en los datos obtenidos del SIE del Banco de México, se tiene que la deuda del gobierno mexicano por tipo de instrumento tiene la siguiente composición:
+
+```{r, echo=FALSE,out.width="450px", out.height="350px"}
+instrumentos<-read.csv("https://raw.githubusercontent.com/JobGV/Auxiliar/main/InstrumentosGobierno.csv")
+instrumentos[,-c(1,2)]<-instrumentos[,-c(1,2)]/instrumentos$TOTAL
+
+fechas<-instrumentos$Fecha %>% as.Date("%d/%m/%Y")
+
+cetes<-instrumentos$CETES
+bondes<-instrumentos$BONDES
+bondesd<-instrumentos$BONDESD
+bondesf<-instrumentos$BONDESF
+udibonos<-instrumentos$UDIBONOS
+bonos<-instrumentos$BONOS
+Etiqueta<-c(rep("CETES",267),rep("BONDES",267),rep("BONDES D",267),
+            rep("BONDES F",267),rep("UDIBONOS",267),rep("BONOS",267))
+Valores<-c(cetes,bondes,bondesd,bondesf,udibonos,bonos)
+
+datos<-data.frame(FECHA=rep(fechas,6),INSTRUMENTO=Etiqueta,SALDO=Valores)
 
 
-**(c) Describa la evolución de las cifras anteriores durante la pandemia de Covid-19, es decir entre principios de 2020 y hasta la fecha.**
+ggplot(datos, aes(x=FECHA, y=SALDO, fill=INSTRUMENTO)) + 
+  geom_area()+
+  theme_classic()+
+  scale_fill_manual(" ", values = c("BONDES" = "#4A0A5D", "BONDES D" = "#00558A", "BONDES F" = "black","BONOS"="#009F94","CETES"="#79D359","UDIBONOS"="#FDE333"))+
+xlab("")+ylab("%")+ggtitle("Composición de la deuda del gobierno mexicano por tipo de instrumento")+ theme(legend.position="bottom")
+
+#Inciso c
+datos<-datos %>% filter(FECHA>="2019-01-01",INSTRUMENTO!="BONDES")
+p1<-ggplot(datos, aes(x = FECHA, y = SALDO)) +
+  geom_line(aes(color = INSTRUMENTO), size = 1) +
+  theme_minimal()+
+  scale_color_manual("",values=c("BONDES D" = "#00558A", "BONDES F" = "black","BONOS"="#009F94","CETES"="#79D359","UDIBONOS"="#4A0A5D"))+
+  xlab("")+ylab("%")+ggtitle("Composición de la deuda del gobierno mexicano por tipo de instrumento")+ geom_vline(xintercept = as.numeric(as.Date("2020-04-01")),color="red",size=1)+ theme(legend.position="bottom")
+
+```
+
+Del cuadro anterior se puede observar los siguiente: 
+
+* Los BONDES dejaron de ser emitidos a partir del 01/05/2010
+* La emisión de BONDES D inició el 01/08/2006
+* La emesión de BONDES F inició el 01/10/2021
+* Actualemente los bonos son el instrumento que tienen mayor participación en la deuda del gobierno mexican; mientras que, los BONDES F tienen la menor participación.
+
+Sobre la madurez de la deuda del gobierno mexicano se tiene la siguiente figura: 
+
+```{r, echo=FALSE,out.width="350px", out.height="350px"}
+madurez<-read.csv("https://raw.githubusercontent.com/JobGV/Auxiliar/main/MadurezGobierno.csv")
+fechas<-madurez$Fecha %>% as.Date("%d/%m/%Y")
+Etiqueta<-c(rep("Corto Plazo",154),rep("Largo Plazo",154))
+Valores<-c(madurez$CP,madurez$LP)
+
+datos<-data.frame(FECHA=rep(fechas,2),Temporalidad=Etiqueta,Porcentaje=Valores)
+
+
+ggplot(datos, aes(x=FECHA, y=Porcentaje, fill=Temporalidad)) + 
+  geom_area()+
+  theme_classic()+
+  scale_fill_manual(" ", values = c("Corto Plazo" = "#4A0A5D", "Largo Plazo" = "#009F94"))+
+  xlab("")+ylab("%")+ggtitle("Composición de la deuda del gobierno mexicano por madurez")+theme(legend.position="bottom")
+
+#Inciso c
+datos<-datos %>% filter(FECHA>="2019-01-01")
+p2<-ggplot(datos, aes(x = FECHA, y = Porcentaje)) +
+  geom_line(aes(color = Temporalidad), size = 1) +
+  theme_minimal()+
+  scale_color_manual(" ", values = c("Corto Plazo" = "#4A0A5D", "Largo Plazo" = "#009F94"))+
+  xlab("")+ylab("%")+ggtitle("Composición de la deuda del gobierno mexicano por madurez")+ geom_vline(xintercept = as.numeric(as.Date("2020-04-01")),color="red",size=1)+ theme(legend.position="bottom")
+
+```
+
+Notemos que la deuda del gobierno mexicano es en su mayoría de largo plazo, este comportamiento ha sido persistente a largo del tiempo. 
+
+Respecto a la deuda interna y externa se tiene el siguiente gráfico:
+
+```{r, echo=FALSE,out.width="350px", out.height="350px"}
+deuda<-read.csv("https://raw.githubusercontent.com/JobGV/Auxiliar/main/DeudaGobierno.csv")
+fechas<-deuda$Fecha %>% as.Date("%d/%m/%Y")
+Etiqueta<-c(rep("Interna",266),rep("Externa",266))
+Valores<-c(deuda$I,deuda$E)
+datos<-data.frame(FECHA=rep(fechas,2),Tipo=Etiqueta,Porcentaje=Valores)
+ggplot(datos, aes(x=FECHA, y=Porcentaje, fill=Tipo)) + 
+  geom_area()+
+  theme_classic()+
+  scale_fill_manual("", values = c("Interna" = "#4A0A5D", "Externa" = "#009F94"))+
+  xlab("")+ylab("%")+ggtitle("Composición de la deuda neta del sector público")+theme(legend.position="bottom")
+
+
+#para inciso c
+
+datos<-datos %>% filter(FECHA>="2019-01-01")
+p5<-ggplot(datos, aes(x = FECHA, y = Porcentaje)) +
+  geom_line(aes(color = Tipo), size = 1) +
+  theme_minimal()+
+  scale_color_manual("", values = c("Interna" = "#4A0A5D", "Externa" = "#009F94"))+
+  xlab("")+ylab("%")+ggtitle("Composición de la deuda neta del sector público")+ geom_vline(xintercept = as.numeric(as.Date("2020-04-01")),color="red",size=1)+theme(legend.position="bottom")
+
+
+```
+
+Notemos que la deuda externa está en moneda extranjera, por lo que una depreciación de la moneda local podría ser un factor de riesgo de impago. En México la deuda interna es mayor que la externa. 
+
+## (b)  Utilice datos del SIE/Valores en Circulación o para describir la composición a lo largo del tiempo de la deuda del sector privado no financiero mexicano por madurez y moneda. Señale la implicación de lo que encuentre para el riesgo de impago.
+
+La deuda del sector privado no financiero mexicano por madurez se compone de la siguiente manera: 
+
+```{r, echo=FALSE,out.width="350px", out.height="350px"}
+Privadas<-read.csv("https://raw.githubusercontent.com/JobGV/Auxiliar/main/PrivadaNoFin.csv")
+fechas<-Privadas$Fecha %>% as.Date("%d/%m/%Y")
+Etiqueta<-c(rep("Corto Plazo",154),rep("Largo Plazo",154))
+Valores<-c(Privadas$CP,Privadas$LP)
+datos<-data.frame(FECHA=rep(fechas,2),Temporalidad=Etiqueta,Porcentaje=Valores)
+
+ggplot(datos, aes(x=FECHA, y=Porcentaje, fill=Temporalidad)) + 
+  geom_area()+
+  theme_classic()+
+  scale_fill_manual(" ", values = c("Corto Plazo" = "#4A0A5D", "Largo Plazo" = "#009F94"))+
+  xlab("")+ylab("%")+ggtitle("Composición de la deuda del sector privado no financiero por madurez")+ theme(legend.position="bottom")
+
+#Para c
+datos<-datos %>% filter(FECHA>="2019-01-01")
+p3<-ggplot(datos, aes(x = FECHA, y = Porcentaje)) +
+  geom_line(aes(color = Temporalidad), size = 1) +
+  theme_minimal()+
+  scale_color_manual(" ", values = c("Corto Plazo" = "#4A0A5D", "Largo Plazo" = "#009F94"))+
+  xlab("")+ylab("%")+ggtitle("Composición de la deuda del sector privado no financiero por madurez")+ geom_vline(xintercept = as.numeric(as.Date("2020-04-01")),color="red",size=1)+ theme(legend.position="bottom")
+
+
+```
+
+Notemos que la deuda del sector privado no financiero mexicano está compuesta principalmente por deuda de largo plazo (deuda a más de 365 días). El riesgo de impago en esta situación se puede dar debido a que algunas empresas quiebren antes de saldar sus deudas.
+
+
+La deuda del sector privado no financiero mexicano por tipo de moneda se compone de la siguiente manera: 
+
+```{r, echo=FALSE,out.width="350px", out.height="350px"}
+Etiqueta<-c(rep("Local",154),rep("Extranjera",154))
+Valores<-c(Privadas$L,Privadas$E)
+datos<-data.frame(FECHA=rep(fechas,2),Moneda=Etiqueta,Porcentaje=Valores)
+ggplot(datos, aes(x=FECHA, y=Porcentaje, fill=Moneda)) + 
+  geom_area()+
+  theme_classic()+
+  scale_fill_manual("", values = c("Local" = "#009F94", "Extranjera" = "#4A0A5D"))+
+  xlab("")+ylab("%")+ggtitle("Composición de la deuda del sector privado no financiero por moneda")+ theme(legend.position="bottom")
+
+#Para c
+datos<-datos %>% filter(FECHA>="2019-01-01")
+p4<-ggplot(datos, aes(x = FECHA, y = Porcentaje)) +
+  geom_line(aes(color = Moneda), size = 1) +
+  theme_minimal()+
+  scale_color_manual("", values = c("Local" = "#009F94", "Extranjera" = "#4A0A5D"))+
+  xlab("")+ylab("%")+ggtitle("Composición de la deuda del sector privado no financiero por moneda")+ geom_vline(xintercept = as.numeric(as.Date("2020-04-01")),color="red",size=1)+ theme(legend.position="bottom")
+
+
+
+```
+
+Con base en el gráfico anterior, la deuda del sector privado no financiero mexicano está compuesta en su mayoria por moneda local. Sin embargo, hay un porcentaje de deuda en moneda extranjera que puede ser la causa del riesgo de impago, esto podría ocurrir si la moneda extranjera se aprecia y la deuda crece de tal forma que la empresa ya no pueda liquidarla.
+
+
+## (c) Describa la evolución de las cifras anteriores durante la pandemia de Covid-19, es decir entre principios de 2020 y hasta la fecha.
+
+Para este ejercicio supondremos que el inicio de la pandemia en México fue el 30 de marzo de 2020 cuando el Consejo de Salubridad General decreta emergencia sanitaria por el virus SARS-CoV-2. Este decreto, cerró buena parte de los servicios de los gobiernos de todos los niveles, así como de los otros poderes de la Unión: Judicial y Legislativo.
+
+
+Veamos los efectos que tuvo la pandemia en la composición de la deuda del gobierno mexicano: 
+
+```{r, echo=FALSE,out.width="350px", out.height="350px"}
+p1
+p2
+p5
+```
+Respecto a la composición por instrumentos se tienen los siguientes resultados: 
+
+* 2020-2021
+  + El peso de los bonos en la deuda disminuyó
+  + El peso de los cetes en la deuda aumentó
+  + El peso de los udibonos y bondes D permanecieron estables
+* 2021-2022
+  + El peso de los bonos en la deuda disminuyó
+  + El peso de los cetes en la deuda permaneció estable con una caída al final del año
+  + El peso de los udibonos en la deuda aumentó 
+  + El peso de los bondes D en la deuda aumentó y tuvo una caída a final del año
+
+En relación a la madurez de la deuda del gobierno mexicano podemos observar que aumentó la deuda a corto plazo y diminuyó la de largo plazo, lo anterior se puede ver como una señal de blindaje ante la incertidumbre de la situación sanitaria. 
+
+En cuanto a la composición de la deuda neta del sector público podemos observar que la deuda interna tiene una tendencia creciente desde el 30 de marzo de 2020, mientras que la deuda externa tiene una tendencia decreciente. 
+
+Ahora veamos los efectos que tuvo la pandemia en la composición de la deuda del sector privado no financiero mexicano:
+```{r, echo=FALSE,out.width="350px", out.height="350px"}
+p3
+p4
+```
+
+Notemos que la composición de la deuda del sector privado no financiero mexicano cambió en su estructura después del decreto de emergencia sanitaria por el virus SARS-CoV-2.
+
++ La deuda de corto plazo aumentó, mientras que la deuda de largo plazo disminuyó
++ La deuda en moneda extranjera aumentó, pero no fue instantáneo el cambio sino que ocurrió a finales del año
+
+Lo anterior nos permite observar como el sector privado se protegió ante la situación sanitaria aumentando su deuda a corto plazo y no adquiriendo deuda en moneda extranjera para protegerse de una posible depreciación de la moneda local. 
+
+
 
 
 
