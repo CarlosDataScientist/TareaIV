@@ -22,6 +22,36 @@ y otros) y de la proporción que cada uno representa del total. Es decir,
 hay que producir dos gráficas de series de tiempo en la que el valor
 total está constituido por varias partes intermedias.**
 
+Para la siguiente respuesta se utiliza la serie
+`Principales Activos y Pasivos de la banca comercal (metodología 2018)`.
+La pregunta habla acerca de los depósitos a la vista y el financiamiento
+de mercado. Entendemos como depósitos a la vista aquellos que son de
+exigibilidad inmediata, mientras que excluimos de esta tipificación los
+depósitos a plazo. Por otro lado, definimos el financiamiento de mercado
+aquel que no incluya al sector público, excluyendo también a las
+empresas productivas del estado o empresas de participación estatal y
+órganos decentralizados. Se presenta una tabla con la tipificación que
+se acaba de definir con el nombre y número de series de banxico.
+
+| Sector  | Tipo       | Serie    | Nombres                                                                                     |
+|:--------|:-----------|:---------|:--------------------------------------------------------------------------------------------|
+| Privado | A la vista | SF320773 | d Captación - d.1 Sector privado no bancario residente - d.1.1 De exibilidad inmediata      |
+| Público | A la vista | SF320776 | d Captación - d.2 Banca de desarrollo - d.2.1 De exibilidad inmediata                       |
+| Público | A la vista | SF320779 | d Captación - d.3 Otros intermediarios financieros públicos - d.3.1 De exibilidad inmediata |
+| Público | A la vista | SF320782 | d Captación - d.4 Sector público no financiero - d.4.1 De exibilidad inmediata              |
+| Privado | A la vista | SF320785 | d Captación - d.5 Sector no residente - d.5.1 De exibilidad inmediata                       |
+| Privado | A plazo    | SF320774 | d Captación - d.1 Sector privado no bancario residente - d.1.2 A plazo                      |
+| Público | A plazo    | SF320777 | d Captación - d.2 Banca de desarrollo - d.2.2 A plazo                                       |
+| Público | A plazo    | SF320780 | d Captación - d.3 Otros intermediarios financieros públicos - d.3.2 A plazo                 |
+| Público | A plazo    | SF320783 | d Captación - d.4 Sector público no financiero - d.4.2 A plazo                              |
+| Privado | A plazo    | SF320786 | d Captación - d.5 Sector no residente - d.5.2 A plazo                                       |
+
+Tipificación
+
+A continuación se presentan las gráficas.
+
+![](Tarea_IV_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
 **(b) Obtenga de la misma fuente información del tipo de créditos que el
 sistema bancario (comercial) mexicano otorga, y haga gráficas
 describiendo la evolución en el tiempo de distintos tipos de crédito y
@@ -36,7 +66,7 @@ información adicional acerca de la madurez de los distintos tipos de
 financiamiento y crédito otorgado.**
 
 **(d) Explique qué implica la evolución de las formas de financiamiento
-y los tipos de crédito otorgados que observó en los incisos anteri- ores
+y los tipos de crédito otorgados que observó en los incisos anteriores
 para la estabilidad del sistema financiero a la luz del modelo
 Diamond-Dybvig.**
 
