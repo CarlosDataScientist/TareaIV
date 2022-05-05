@@ -24,21 +24,35 @@ Realice los siguientes ejercicios con el equipo señalado.
 
 **(a) Obtenga, del SIE/Financiamiento e información financiera de intermediarios financieros/ del Banco de México, información de las formas de financiamiento del sector bancario (comercial) mexicano, y haga gráficas describiendo la evolución en el tiempo de las distintas tipos de financiamiento (depósitos a la vista, financiamiento de mercado y otros) y de la proporción que cada uno representa del total. Es decir, hay que producir dos gráficas de series de tiempo en la que el valor total está constituido por varias partes intermedias.**
 
-Para la siguiente respuesta se utiliza la serie `Principales Activos y Pasivos de la banca comercal (metodología 2018)`. La pregunta habla acerca de los depósitos a la vista y el financiamiento de mercado. Entendemos como depósitos a la vista aquellos que son de exigibilidad inmediata, mientras que excluimos de esta tipificación los depósitos a plazo. Por otro lado, definimos el financiamiento de mercado aquel que no incluya al sector público, excluyendo también a las empresas productivas del estado o empresas de participación estatal y órganos decentralizados. Se presenta una tabla con la tipificación que se acaba de definir con el nombre y número de series de banxico.
+Para la siguiente respuesta se utiliza el cuadro `Principales Activos y Pasivos de la banca comercal (metodología 2018)`. La pregunta habla acerca de los depósitos a la vista y el financiamiento de mercado. Entendemos como depósitos a la vista aquellos que son de exigibilidad inmediata, mientras que excluimos de esta tipificación los depósitos a plazo. Por otro lado, definimos el financiamiento de mercado aquel que no incluya al sector público, excluyendo también a las empresas productivas del estado o empresas de participación estatal y órganos decentralizados. Se presenta una tabla con la tipificación que se acaba de definir con el nombre y número de series de banxico. 
 
 ```{r, echo=FALSE}
-clase <- c('d.1 Sector privado no bancario residente',
-            'd.2 Banca de desarrollo',
-            'd.3 Otros intermediarios financieros públicos',
-            'd.4 Sector público no financiero',
-            'd.5 Sector no residente')
-tipo <- paste('d.', rep(1:5,  2), c(rep('.1 De exibilidad inmediata',5), rep('.2 A plazo',5)), sep = '')
-Nombres <- paste('d Captación', clase, tipo, sep = ' - ')
+clase <- c('d.1. Sector privado no bancario residente',
+            'd.2. Banca de desarrollo',
+            'd.3. Otros intermediarios financieros públicos',
+            'd.4. Sector público no financiero',
+            'd.5. Sector no residente')
+tipo <- paste('d.', rep(1:5,  2), c(rep('.1. De exibilidad inmediata',5), rep('.2. A plazo',5)), sep = '')
+Nombres <- paste('d. Captación', clase, tipo, sep = ' - ')
 series.exigibilidad <- c('SF320773','SF320776','SF320779','SF320782', 'SF320785')
 series.plazo <- c('SF320774','SF320777','SF320780','SF320783', 'SF320786')
-Serie <- c(series.exigibilidad, series.plazo)
+series.reporto <- c('SF320788', 'SF320790', 'SF320789', 'SF320791', 'SF320792', 'SF320793')
+Serie <- c(series.exigibilidad, series.plazo, series.reporto)
 Sector <- rep(c('Privado', rep('Público', 3), 'Privado'),2)
 Tipo <- c(rep('A la vista', 5), rep('A plazo', 5))
+clase.reporto <- c('e.1 Sector privado no bancario residente',
+                   'e.2 Banco de México',
+                   'e.3 Banca de desarrollo',
+                   'e.4 Otros intermediarios financieros públicos',
+                   'e.5 Sector público no financiero',
+                   'e.6 Sector no residente')
+Nombres.reporto <- paste('e. Acreedores por reporto de valores', clase.reporto,
+                         sep = ' - ')
+Sector.reporto <- c('Privado', rep('Público', 4), 'Privado')
+Tipo.reporto <- rep('A plazo', 6)
+Sector <- c(Sector, Sector.reporto)
+Tipo <- c(Tipo, Tipo.reporto)
+Nombres <- c(Nombres, Nombres.reporto)
 tipificacion <- data.frame(Sector, Tipo, Serie, Nombres)
 knitr::kable(tipificacion, caption = 'Tipificación')
 ```
@@ -76,10 +90,20 @@ colnames(ds.etl)[2] <- 'Valor (miles)'
 table.1 <- dplyr::summarise(dplyr::group_by(ds.etl, Fecha, Sector, Tipo),
                             `Depositos` = sum(`Valor (miles)`)/1000000)
 table.1 <- as.data.frame(table.1)
-table.1[,5] <- paste(table.1[,2], table.1[,3])
+table.1[,5] <- as.factor(paste(table.1[,2], table.1[,3]))
+table.1[,5] <- forcats::fct_reorder(table.1[,5], table.1[,4], .fun = 'mean')
 colnames(table.1)[5] <- 'Clase'
 table.1 <- table.1[,c(1,5,4)]
 plot.1 <- ggplot2::ggplot(table.1,  ggplot2::aes(x = Fecha, 
+                                                y = `Depositos`, 
+                                                color = Clase)) + 
+  ggplot2::geom_line() + ggplot2::theme(legend.position="bottom")+
+  ggplot2::labs(title = 'Captación Bancaria (comercial)',
+                subtitle = 'En miles de millones de pesos nominales',
+                y = '$',
+                x = 'Año',
+                caption = 'Fuente: Elaboración propia con datos del SIE/BANXICO')
+plot.2 <- ggplot2::ggplot(table.1,  ggplot2::aes(x = Fecha, 
                                                 y = `Depositos`, 
                                                 fill = Clase)) + 
   ggplot2::geom_area() + ggplot2::theme(legend.position="bottom") +
@@ -88,23 +112,369 @@ plot.1 <- ggplot2::ggplot(table.1,  ggplot2::aes(x = Fecha,
                 y = '$',
                 x = 'Año',
                 caption = 'Fuente: Elaboración propia con datos del SIE/BANXICO')
+
 ```
+
+Podemos observar como el sector privado ha tenido una pendiente más pronunciada en cuanto al incremento de la captación. Es importante recalcar que los datos no están ajustados por la inflación, luego lo que esperaríamos sería una tendencia ascendente con respecto al tiempo. Es interesante notar que los depósitos a la vista del sector privado han incrementado de forma constante a lo largo del periodo. Existe un salto importante en 2020 debido a la pandemia, pero parece que después de ello regresa a la tendencia anterior. Con respecto a los depósitos a plazo del mismo sector, cabe resaltar que a mediados de 2015 se corta la curva de los depósitos a corto plazo, en seguida las dos clases mantienen la misma tendencia y van casi pegadas. Al inicio de la pandemia divergen y ese patrón sigue hasta marzo de 2022. Los depósitos a plazo del sector público son muy volátiles, esto se puede deber a la naturaleza de la actividad política, uno no esperaría que la gestión actual le diera demasiado peso al ahorro que podría utilizar el gobierno entrante. Los depósitos a la vista mantienen del sector público mantienen una tendencia ascendente y sin gran volatilidad.
+
 ```{r, echo=FALSE}
 plot.1
 ```
 
+```{r, echo=FALSE}
+plot.2
+```
 
+Se muestra la participación de los sectores y clase de depósito de la banca comercial. Desde finales de 2011, los depósitos a la vista del sector privado absorbió participación de los depósitos a plazo de ese mismo sector y ha mantenido esa tendencia desde entonces. Podríamos tener la intuición que la necesidad de liquidez podría haber ido aumentando a través de los años para el sector privado. El sector público ha mantenido constante su participación en los depósitos a la vista.. Los depósitos a plazo del sector público es muy volatil. 
+
+```{r, echo=FALSE}
+table.2 <- (dplyr::mutate(
+  dplyr::ungroup(
+    dplyr::mutate(
+      dplyr::group_by(table.1, Fecha),
+    Total = sum(Depositos))
+  ),
+`Participación` = Depositos / Total
+))[,c(1,2,5)]
+
+plot.3 <- ggplot2::ggplot(table.2,  ggplot2::aes(x = Fecha, 
+                                                y = `Participación`, 
+                                                fill = Clase)) + 
+  ggplot2::geom_area() + ggplot2::theme(legend.position="bottom")+
+  ggplot2::labs(title = 'Captación Bancaria (comercial)',
+                subtitle = 'Participación del total, corte transversal',
+                y = '%',
+                x = 'Año',
+                caption = 'Fuente: Elaboración propia con datos del SIE/BANXICO')
+plot.3 
+```
 
 **(b) Obtenga de la misma fuente información del tipo de créditos que el sistema bancario (comercial) mexicano otorga, y haga gráficas describiendo la evolución en el tiempo de distintos tipos de crédito y de la proporción que cada uno representa del total. Al igual que en el inciso anterior, hay que producir dos gráficas de series de tiempo en la que el valor total está constituido por varias partes intermedias.**
 
+Para la siguiente respuesta se utiliza el cuadro `Banca Comercial, Financiamiento detalle (metodología 2018)`. En este caso solo nos concentraremos en el crédito del sector privado, además que se agrega una columna extra de la naturaleza del préstamo. 
+
+```{r, echo=FALSE}
+
+Nombres <- c('a.1.1 Sector privado - a.1.1.1 Consumo, Vigente, Sin restricción, Tarjeta de crédito', 
+             'a.1.1 Sector privado - a.1.1.1 Consumo, Vigente, Sin restricción, Nómina',
+             'a.1.1 Sector privado - a.1.1.1 Consumo, Vigente, Sin restricciÛn, Personales',
+             'a.1.1 Sector privado - a.1.1.1 Consumo, Vigente, Sin restricciÛn, Bienes de consumo duradero',
+             'a.1.1.1 Consumo, Vigente, Sin restricción, Otros',
+             'a.1 Financiamiento directo - a.1.2 Vivienda',
+             'a.1.1 Sector privado - a.1.1.3 Empresas y personas fÌsicas con actividad empresarial',
+             'a.1 Financiamiento directo - a.1.4 Intermediarios financieros no bancarios, Valores',
+             'a.2 TÌtulos asociados a programas de reestructuras'
+             )
+Serie <- c('SF269142', 'SF269143', 'SF269144', 'SF269145', 'SF269148',
+           'SF235736', 'SF269836', 'SF269844', 'SF235739')
+Tipo <- c(rep('Corto plazo', 3), 'Mediano plazo', 'Corto plazo', 'Largo plazo',
+          'Mediano plazo', 'Mediano plazo', 'Largo plazo')
+Banca <- c(rep('Consumo',3), 'Consumo duradero', 'Consumo', 'Vivienda', 'Empresarial', 
+           'Otros', 'Otros')
+Naturaleza <- c('Tarjeta de crédito', 'Nómina', 'Personales', 
+                'Bienes de consumo duradero', 'Otros', 'Vivienda',
+                'Empresarial', 'Intediarios no financieros', 'Programas de reestructura'
+                )
+
+tipificacion <- data.frame(Banca, Naturaleza, Tipo, Serie, Nombres)
+knitr::kable(tipificacion, caption = 'Tipificación')
+```
+```{r, echo=FALSE}
+# Abrir sesión en API banxico
+tkn <- "8bd93af99a69ac4062f645fd43e0b517c5c88bb17750149a9fce21e47f8264af"
+siebanxicor::setToken(tkn)
+series <- siebanxicor::getSeriesData(Serie, '2009-07-01','2022-03-01')
+j = 1
+for (i in match(names(series),Serie)) {
+  a <- matrix(unlist(series[[j]][2]), ncol = 1)
+  a <- cbind(a, rep(Serie[i], length(a)))
+  if (j == 1) {
+    b <- matrix(unlist(series[[j]][1]), ncol = 1)
+    ds <- cbind(b,a)
+    colnames(ds) <- c('Fecha' , 'Valor (miles)', 'Serie')
+    j = j + 1
+    next
+  }
+  a <- cbind(b,a)
+  ds <- rbind(ds,a)
+  j = j + 1
+}
+ds <- data.frame(ds)
+ds[,2] <- as.numeric(ds[,2])
+ds[,1] <- as.POSIXct.Date(as.numeric(ds[,1])+ 0.5)
+ds.etl <- (merge(x = ds, y = tipificacion[,-5], by = 'Serie'))[,c(2,3,4,6)]
+ds.etl$Valor..miles. <- ifelse(ds.etl$Banca %in% c('Vivienda', 'Empresarial', 'Otros'), 
+       ds.etl$Valor..miles. / 1000,
+       ds.etl$Valor..miles.)
+colnames(ds.etl)[2] <- 'Valor (miles)'
+```
+```{r, echo=FALSE, include=FALSE}
+table.a <- table.1
+table.1 <- dplyr::summarise(dplyr::group_by(ds.etl, Fecha, Banca),
+                            `Depositos` = sum(`Valor (miles)`)/1000)
+table.1 <- as.data.frame(table.1)
+table.1[,2] <- as.factor(table.1[,2])
+table.1[,2] <- forcats::fct_reorder(table.1[,2], table.1[,3], .fun = 'mean')
+plot.3 <- ggplot2::ggplot(table.1,  ggplot2::aes(x = Fecha, 
+                                                y = `Depositos`, 
+                                                color = Banca)) + 
+  ggplot2::geom_line() + ggplot2::theme(legend.position="bottom")+
+  ggplot2::labs(title = 'Crédito Bancario (comercial)',
+                subtitle = 'En miles de millones de pesos nominales',
+                y = '$',
+                x = 'Año',
+                caption = 'Fuente: Elaboración propia con datos del SIE/BANXICO')
+plot.4 <- ggplot2::ggplot(table.1,  ggplot2::aes(x = Fecha, 
+                                                y = `Depositos`, 
+                                                fill = Banca)) + 
+  ggplot2::geom_area() + ggplot2::theme(legend.position="bottom") +
+  ggplot2::labs(title = 'Crédito Bancario (comercial)',
+                subtitle = 'En miles de millones de pesos nominales',
+                y = '$',
+                x = 'Año',
+                caption = 'Fuente: Elaboración propia con datos del SIE/BANXICO')
+```
+
+Podemos observar que el crédito empresarial ha tenido el mayor incremento. Seguido por el crédito a consumo de bienes no durables y vivienda. Notar como todo el crédito excepto el hipotecario se redujo notablemente, lo anterior se debe a que el crédito a la vivienda es a muy largo plazo y se suaviza conforme a choques exógenos. Por otro lado, notar que aunque el crédito empresarial se toma crédito a mediano plazo junto con el de bienes de consumo durable porque está compuesto por crédito de varios horizontes. Lo anterior puede verse en la variabilidad que hubo en marzo de 2020.  
+
+```{r, echo=FALSE}
+plot.3
+```
+
+```{r, echo=FALSE}
+plot.4
+```
+
+Notar que el aumento en la participación del crédito empresarial fue absorbido por el consumo no duradero y un pequeño aumento en la participación del crédito hipotecario, que se ve más pronunciado después de marzo de 2020. Ahora realizaremos un análisis pero con respecto a los plazos del crédito que se han propuesto. Recordar que no es posible desagregar el crédito empresarial en plazos con los datos obtenidos y se ha catalogado como plazo medio. 
+
+```{r, echo=FALSE}
+table.b <- table.2
+table.2 <- (dplyr::mutate(
+  dplyr::ungroup(
+    dplyr::mutate(
+      dplyr::group_by(table.1, Fecha),
+    Total = sum(Depositos))
+  ),
+`Participación` = Depositos / Total
+))[,c(1,2,5)]
+
+plot.5 <- ggplot2::ggplot(table.2,  ggplot2::aes(x = Fecha, 
+                                                y = `Participación`, 
+                                                fill = Banca)) + 
+  ggplot2::geom_area() + ggplot2::theme(legend.position="bottom")+
+  ggplot2::labs(title = 'Crédito Bancario (comercial)',
+                subtitle = 'Participación del total, corte transversal',
+                y = '%',
+                x = 'Año',
+                caption = 'Fuente: Elaboración propia con datos del SIE/BANXICO')
+plot.5 
+```
+
+Podemos observar que de acuerdo a la definición de temporalidad que seguimos, parece que las formas cualitativas del consumo no durable, hipotecario y crédito empresarial explican la diversificación de horizonte de los activos bancarios. 
+
+```{r, echo=FALSE, include=FALSE}
+table.c <- table.1
+table.1 <- dplyr::summarise(dplyr::group_by(ds.etl, Fecha, Tipo),
+                            `Depositos` = sum(`Valor (miles)`)/1000)
+table.1 <- as.data.frame(table.1)
+table.1[,2] <- as.factor(table.1[,2])
+table.1[,2] <- forcats::fct_reorder(table.1[,2], table.1[,3], .fun = 'mean')
+plot.6 <- ggplot2::ggplot(table.1,  ggplot2::aes(x = Fecha, 
+                                                y = `Depositos`, 
+                                                color = Tipo)) + 
+  ggplot2::geom_line() + ggplot2::theme(legend.position="bottom")+
+  ggplot2::labs(title = 'Crédito Bancario (comercial)',
+                subtitle = 'En miles de millones de pesos nominales',
+                y = '$',
+                x = 'Año',
+                caption = 'Fuente: Elaboración propia con datos del SIE/BANXICO')
+plot.7 <- ggplot2::ggplot(table.1,  ggplot2::aes(x = Fecha, 
+                                                y = `Depositos`, 
+                                                fill = Tipo)) + 
+  ggplot2::geom_area() + ggplot2::theme(legend.position="bottom") +
+  ggplot2::labs(title = 'Crédito Bancario (comercial)',
+                subtitle = 'En miles de millones de pesos nominales',
+                y = '$',
+                x = 'Año',
+                caption = 'Fuente: Elaboración propia con datos del SIE/BANXICO')
+```
+
+Lo mismo sucede con la participación. 
+
+```{r, echo=FALSE}
+table.d <- table.2
+table.2 <- (dplyr::mutate(
+  dplyr::ungroup(
+    dplyr::mutate(
+      dplyr::group_by(table.1, Fecha),
+    Total = sum(Depositos))
+  ),
+`Participación` = Depositos / Total
+))[,c(1,2,5)]
+
+plot.8 <- ggplot2::ggplot(table.2,  ggplot2::aes(x = Fecha, 
+                                                y = `Participación`, 
+                                                fill = Tipo)) + 
+  ggplot2::geom_area() + ggplot2::theme(legend.position="bottom")+
+  ggplot2::labs(title = 'Crédito Bancario (comercial)',
+                subtitle = 'Participación del total, corte transversal',
+                y = '%',
+                x = 'Año',
+                caption = 'Fuente: Elaboración propia con datos del SIE/BANXICO')
+plot.8 
+```
 
 **(c) Explique si los datos son consistentes con la hipótesis de que los bancos hacen transformación de madurez o si no lo son y porqué. Para ello posiblemente tenga que hacer supuestos (razonables) o buscar información adicional acerca de la madurez de los distintos tipos de financiamiento y crédito otorgado.**
 
+Supuestos:
+
+1) Consideramos solamente el sector privado, puesto que suponemos que los bancos comerciales no tienen riesgo de corrida bancaria por parte del sector público ya que existe un _planificador_ benevolente (presidente de la respública) que no tienen incentivos para que ello suceda.
+
+2) Suponemos que solo aquellos depósitos de exigibilidad inmediata pueden ser retirados antes de plazo. A dichos instrumentos se les denomina _depositos a la vista_.
+
+3) Suponemos que todo depósito o pasivo del banco no _deposito a la vista_ excepto los denominados de exigibilidad inmediata. 
+
+4) Se supone que el crédito con horizonte a corto plazo es sostenible por sí mismo y que aquellos agentes con _depósitos a la vista_ aguardan el horizonte de corto plazo para retirar su liquidez.
+
+5) Suponemos que el horizonte del crédito bancario se distribuye de acuerdo a la tabla 2 y el riesgo es el mismo para cada horizonte.
+
+6) Se asume que los banco no toman en cuenta los depósitos de regulación para tomar su decisión de diversificación de créditos y pasivos.
+
+Definición (Transformación de madurez):
+
+Definimos transformación de madurez como el ratio de activos financiados por el banco con los depósitos a la vista.
+
+Intuitivamente bajo nuestra definición, la transformación de madurez explica cuál es el porcentaje de pasivos a corto plazo que se transforman y financian activos de largo plazo.
+
+Proposición:
+
+Bajo los supuestos 1) a 5) podemos caracterizar la transformación de la madurez como:
+
+$$
+\Gamma = \frac{\text{Activos}_{\text{privados}}\text{ a mediano y largo y plazo} - \text{Pasivos}_{\text{privados}} \text{ a largo plazo}}{\text{Depósitos a la vista privados}}
+$$
+
+Demostración:
+
+Bajo el supuesto 1) no requerimos activos del sector público, entonces solo nos concentramos en activos privados. 
+Bajo el supuesto 2), los activos a corto plazo son aquellos que denominamos _depositos a la vista_.
+Bajo el supuesto 3) todo aquel pasivo que no sea depósito a la vista es pasivo de largo plazo y por tanto restará al total de activos porque estará financiando parte del total.
+Bajo el supuesto 4) los pasivos a corto plazo no se toman en cuenta.
+Bajo el supuesto 5) los activos del banco se dividen en mediano y largo plazo.
+Bajo el supuesto 6) es suficiente con el monto de los activos que no incluyen a los reguladores.
+
+Calculamos y graficamos la transformación de madurez para cada periodo. Podemos observar que bajo los supuestos planteados, el boom de la transformación de madurez bancaria se dio a inicios de 2015 y se ha mantenido entre los valores de 0.2 y 0.3.
+
+```{r, echo = F}
+pasivos.vista <- as.data.frame(dplyr::filter(table.a, Clase == 'Privado A la vista'))
+pasivos.largo <- as.data.frame(dplyr::filter(table.a, Clase == 'Privado A plazo'))
+activos.medianoYlargo <- as.data.frame(dplyr::ungroup(
+  (dplyr::summarize(
+    dplyr::group_by(
+      dplyr::filter(table.1, Tipo %in% c('Mediano plazo', 'Largo plazo')),
+    Fecha),
+  Activos = sum(Depositos)))))
+
+ratio.1 <- ifelse((activos.medianoYlargo$Activos - pasivos.largo$Depositos) / pasivos.vista$Depositos < 0, 0, (activos.medianoYlargo$Activos - pasivos.largo$Depositos) / pasivos.vista$Depositos)
+
+table.3 <- pasivos.vista[,c(1,3)]
+table.3[,2] = ratio.1
+colnames(table.3)[2] = 'Transformación'
+
+plot.9 <- ggplot2::ggplot(table.3,  ggplot2::aes(x = Fecha, 
+                                                y = `Transformación`)) +
+  ggplot2::geom_area() + ggplot2::theme(legend.position="bottom")+
+  ggplot2::labs(title = 'Transformación de madurez bancaria',
+                subtitle = 'Bajo supuestos 1, 2, 3, 4, 5',
+                y = 'Gamma',
+                x = 'Año',
+                caption = 'Fuente: Elaboración propia con datos del SIE/BANXICO')
+plot.9
+```
+
+Aligeremos el supuesto 4 como 
+
+4.1) Se supone que la mitad del crédito con horizonte a corto plazo es sostenible por sí mismo y que aquellos agentes con _depósitos a la vista_ aguardan el horizonte de corto plazo para retirar su liquidez.
+
+Bajo los supuestos 1) a 4.1) y 5) podemos caracterizar la transformación de la madurez como:
+
+$$
+\Gamma' = \frac{0.5\text{Activos}_{privados}\text{ a corto plazo}+\text{Activos}_{\text{privados}}\text{ a mediano y largo y plazo} - \text{Pasivos}_{\text{privados}} \text{ a largo plazo}}{\text{Depósitos a la vista privados}}
+$$
+
+Calculemos el gamma prima. Notamos que el ratio, naturalmente, es mayor pero nunca rebasa niveles de 0.52. En ambos casos 2015 es el punto coyuntural. 
+
+```{r, echo = F}
+pasivos.vista <- as.data.frame(dplyr::filter(table.a, Clase == 'Privado A la vista'))
+pasivos.largo <- as.data.frame(dplyr::filter(table.a, Clase == 'Privado A plazo'))
+activos.medianoYlargo <- as.data.frame(dplyr::ungroup(
+  (dplyr::summarize(
+    dplyr::group_by(
+      dplyr::filter(table.1, Tipo %in% c('Mediano plazo', 'Largo plazo')),
+    Fecha),
+  Activos = sum(Depositos)))))
+activos.corto <- as.data.frame(dplyr::ungroup(
+  (dplyr::summarize(
+    dplyr::group_by(
+      dplyr::filter(table.1, Tipo %in% c('Corto plazo')),
+    Fecha),
+  Activos = sum(Depositos)))))
+
+ratio.2 <- ifelse((activos.medianoYlargo$Activos - pasivos.largo$Depositos + activos.corto$Activos * 0.5) / pasivos.vista$Depositos < 0, 0, (activos.medianoYlargo$Activos - pasivos.largo$Depositos + activos.corto$Activos * 0.5) / pasivos.vista$Depositos)
+
+table.4 <- pasivos.vista[,c(1,3)]
+table.4[,2] = ratio.2
+colnames(table.4)[2] = 'Transformación'
+
+plot.9 <- ggplot2::ggplot(table.4,  ggplot2::aes(x = Fecha, 
+                                                y = `Transformación`)) +
+  ggplot2::geom_area() + ggplot2::theme(legend.position="bottom")+
+  ggplot2::labs(title = 'Transformación de madurez bancaria',
+                subtitle = 'Bajo supuestos 1, 2, 3, 4.1, 5',
+                y = 'Gamma prima',
+                x = 'Año',
+                caption = 'Fuente: Elaboración propia con datos del SIE/BANXICO')
+plot.9
+```
 
 **(d) Explique qué implica la evolución de las formas de financiamiento y los tipos de crédito otorgados que observó en los incisos anteriores para la estabilidad del sistema financiero a la luz del modelo Diamond-Dybvig.**
 
+Como se mostró en los puntos anteriores, los agentes parecen haber aumentado su preferencia sobre la liquidez que otorgan los depósitos a la vista con el aumento en la participación del total de pasivos.  Este punto puede ser preocupante ya que el crédito al consumo que es a corto plazo, que es de ayuda para financiar el retiro de los depósitos a la vista, cayó durante la pandemia, mientras que el crédito a la vivienda se mantuvo con un crecimiento estable. Como se propuso en el inciso anterior, la medición de la transformación de madurez bancaria nos arroja un aumento desde el 2015 y que solo se detuvo, especulamos, momentaneamente por la pandemia. Estos factores en su conjunto pueden llevar a preguntarnos si son condiciones suficientes para dudar en los bancos y producir una corrida financiera. Ciertamente, no. Sin embargo, la participación de crédito a largo plazo ha ido en aumento, motivado por boom demográfico que ha tenido el país en las últimas décadas, y los depósitos a la vista también, estos dos factores en su conjunto nos indican el debilitamiento del sistema financiero mexicano por el canal de ahorro de los agentes y su preferencia por los depósitos a la vista. 
+
 
 **(e) A propósito, documente el incremento dramático a lo largo del tiempo en el crédito hipotecario como proporción del PIB.**
+
+La serie que se utiliza para la gráfica es la serie `494782 := PIB a precios corrientes`. Se puede apreciar el dramático incremento.
+
+```{r, echo = F}
+tkn <- '09dae22b-d57a-53f7-48e6-a83c20ccb313'
+inegi.pib <- inegiR::inegi_series(series_id = '494782', token = tkn, database = 'BIE')
+inegi.pib$date <- stringr::str_sub(inegi.pib$date, start = 1, end = 4)
+inegi.pib <- dplyr::ungroup(
+  dplyr::summarise(
+    dplyr::group_by(inegi.pib, date),
+  PIB = mean(values) / 1000))
+colnames(inegi.pib)[1] <- 'Fecha'
+
+hipotecario <- table.c[table.c$Banca == 'Vivienda',]
+hipotecario$Fecha <-  format(hipotecario$Fecha, '%Y')
+hipotecario <- dplyr::ungroup(
+  dplyr::summarise(
+    dplyr::group_by(hipotecario, Fecha),
+  Hipotecario = mean(Depositos)))
+
+table.5 <- merge(hipotecario, inegi.pib, by = 'Fecha')
+table.5$ratio <- table.5$Hipotecario / table.5$PIB
+
+ggplot2::ggplot(table.5, ggplot2::aes(x = as.numeric(Fecha), 
+                                      y = ratio * 100)) +
+  ggplot2::geom_line() +
+  ggplot2::labs(title = 'Crédito a la Hipotecario como porcentaje del PIB',
+                subtitle = 'Utilizando series nominales',
+                y = '%',
+                x = 'Año',
+                caption = 'Elaboración propia con datos de INEGI y SIE/Banxico')
+```
 
 
 
