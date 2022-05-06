@@ -24,7 +24,7 @@ Realice los siguientes ejercicios con el equipo señalado.
 
 **(a) Obtenga, del SIE/Financiamiento e información financiera de intermediarios financieros/ del Banco de México, información de las formas de financiamiento del sector bancario (comercial) mexicano, y haga gráficas describiendo la evolución en el tiempo de las distintas tipos de financiamiento (depósitos a la vista, financiamiento de mercado y otros) y de la proporción que cada uno representa del total. Es decir, hay que producir dos gráficas de series de tiempo en la que el valor total está constituido por varias partes intermedias.**
 
-Para la siguiente respuesta se utiliza el cuadro `Principales Activos y Pasivos de la banca comercal (metodología 2018)`. La pregunta habla acerca de los depósitos a la vista y el financiamiento de mercado. Entendemos como depósitos a la vista aquellos que son de exigibilidad inmediata, mientras que excluimos de esta tipificación los depósitos a plazo. Por otro lado, definimos el financiamiento de mercado aquel que no incluya al sector público, excluyendo también a las empresas productivas del estado o empresas de participación estatal y órganos decentralizados. Se presenta una tabla con la tipificación que se acaba de definir con el nombre y número de series de banxico. 
+Para la siguiente respuesta se utiliza el cuadro `Principales Activos y Pasivos de la banca comercial (metodología 2018)`. La pregunta habla acerca de los depósitos a la vista y el financiamiento de mercado. Entendemos como depósitos a la vista aquellos que son de exigibilidad inmediata, mientras que excluimos de esta tipificación los depósitos a plazo. Por otro lado, definimos el financiamiento de mercado aquel que no incluya al sector público, excluyendo también a las empresas productivas del estado o empresas de participación estatal y órganos decentralizados. Se presenta una tabla con la tipificación que se acaba de definir con el nombre y número de series de banxico. 
 
 ```{r, echo=FALSE}
 clase <- c('d.1. Sector privado no bancario residente',
@@ -696,3 +696,13 @@ Lo anterior nos permite observar como el sector privado se protegió ante la sit
 
 
 **4. Proponga una mejora al archivo Diccionario de Economía utilizando github.**
+
+Se proponen los siguientes conceptos (Fuente: The Economist):
+
+\begin{itemize}
+    \item Colateral: Activo garantizado por un prestatario que puede ser incautado por un prestamista para recuperar el valor de un préstamo si el prestatario no cumple con los pagos de capital e intereses requeridos.
+    \item Credit crunch: Evento en el que los bancos dejan de prestar repentinamente, o la liquidez del mercado de bonos se evapora, generalmente porque los acreedores se han vuelto extremadamente aversos al riesgo.
+    \item Default: Incumplimiento de los términos de un contrato de préstamo. Por ejemplo, un prestatario está en default si no realiza los pagos de interés programados sobre un préstamo o no paga el capital en el momento acordado. Estimar la probabilidad de default es una parte crucial en la determinación del precio de un préstamo.
+    \item LIBOR: Abreviatura de London Interbank Offered Rate. Es la tasa de interés que los bancos de alta calidad se cobran entre sí por los préstamos. Como resultado, los bancos suelen utilizarlo como base para calcular la tasa de interés que cobran por otros préstamos. La LIBOR es una tasa flotante que cambia todo el tiempo.
+    \item Offshore: Cuando no se aplican las normas habituales del país de origen de una persona o empresa. Puede ser literalmente offshore en el caso de los inversionistas que trasladan su dinero a un paraíso fiscal de una isla del Caribe. O puede ser meramente legalmente offshore el caso de ciertas transacciones financieras que tienen lugar dentro, por ejemplo, la ciudad de Londres, que se considera que a efectos regulatorios se han realizado extraterritorialmente.
+\end{itemize}
