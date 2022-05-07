@@ -55,6 +55,7 @@ Realice los siguientes ejercicios con el equipo señalado.
 **10.4 A simpler approach to agency costs: limited pledgeability. (Lacker and Weinberg, 1989; Holmstrom and Tirole, 1998.) Consider the model of Section 10.2 with a different friction: there is no cost of verifying output, but the entrepreneur can hide fraction $1-f$ of the project’s output from the investor (with $0\le f\le1$). Thus the entrepreneur can only credibly promise to repay fraction $f$ of the project’s output**
 
 **a) Consider a project with expected payoff $\gamma$ that exceeds $1+r$. What is the condition for the project to be undertaken?**
+
 Denotaremos al producto del proyecto como $X$ que es una variable aleatoria que se distribuye $U(0,2\gamma)$. Ademas sabemos que $\mathbb{E}(X)=\gamma$. Tenemos que $\gamma>1+r$. La empresa acepta el proyecto si, en promedio, la ganancia de la empresa (el producto del proyecto menos el pago a la inversionista) es mayor que si invirtiera toda su riqueza ($W$) a la tasa libre de riesgo ($r$). Es decir, si 
 
 $$
