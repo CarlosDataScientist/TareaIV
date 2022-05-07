@@ -216,10 +216,8 @@ Analogamente para $C_{2t}^n$.
 
 La media y varianza de $C_{2t}^a$ condicionada a la información en $t$ son
 
-$$
-\mathbb{E}_t(C_{2t}^a)=(r+\mathbb{E}_t(p_{t+1})-(1+r)p_t)X_t^a:=\mu\\
-Var_t(C_{2t}^a)=Var_t(p_{t+1})(X_t^a)^2=V(X_t^a)^2:=W
-$$
+$$\mathbb{E}_t(C_{2t}^a)=(r+\mathbb{E}_t(p_{t+1})-(1+r)p_t)X_t^a:=\mu$$
+$$Var_t(C_{2t}^a)=Var_t(p_{t+1})(X_t^a)^2=V(X_t^a)^2:=W$$
 El punto es concluir que las preferencias de los agentes dependen únicamente de la media y la varianza del consumo. Entonces tenemos que
 
 $$
