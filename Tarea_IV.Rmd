@@ -48,8 +48,6 @@ knitr::opts_chunk$set(echo=T, message=FALSE, warning=FALSE,
 ```
 
 
-Realice los siguientes ejercicios con el equipo señalado.
-
 **1. Resuelva los ejercicios 10.4 y 10.5 (5a edición). Realice estos con ayuda de su laboratorista y entregue las soluciones escritas a máquina, utilizando LaTeX. [1 hora, 1 punto cada pregunta]**
 
 **10.4 A simpler approach to agency costs: limited pledgeability. (Lacker and Weinberg, 1989; Holmstrom and Tirole, 1998.) Consider the model of Section 10.2 with a different friction: there is no cost of verifying output, but the entrepreneur can hide fraction $1-f$ of the project’s output from the investor (with $0\le f\le1$). Thus the entrepreneur can only credibly promise to repay fraction $f$ of the project’s output**
@@ -122,11 +120,11 @@ $$
 
 Hagamos un mayor análisis del contrato. Denotemos al pago mínimo requerido por la inversionista como $V=(1+r)(1-W)$. Tenemos tres casos:
 
-1) $\boldsymbol{V>R^{MAX}}$ La inversionista nunca le presta a la empresa, sin importar $r$.
+$\cdot$ $\boldsymbol{V>R^{MAX}}$ La inversionista nunca le presta a la empresa, sin importar $r$.
 
-2) $\boldsymbol{V=R^{MAX}}$ Hay una infinidad de valores de $D$ que le otorgan (en promedio) su pago mínimo requerido. Sin embargo, el equilibrio competitivo es la mínima $D$ que le otorga su pago. Es decir, $D=2f\gamma$. La explicación es que si un inversionista  hace un préstamo con una $D$ mas alta, otros inversionistas podrían prestar a mejores términos. Poniendo presión a la baja a esta $D$ mas alta. 
+$\cdot$ $\boldsymbol{V=R^{MAX}}$ Hay una infinidad de valores de $D$ que le otorgan (en promedio) su pago mínimo requerido. Sin embargo, el equilibrio competitivo es la mínima $D$ que le otorga su pago. Es decir, $D=2f\gamma$. La explicación es que si un inversionista  hace un préstamo con una $D$ mas alta, otros inversionistas podrían prestar a mejores términos. Poniendo presión a la baja a esta $D$ mas alta. 
 
-3) $\boldsymbol{V<R^{MAX}}$ Hay un único valor de $D$, que le otorga (en promedio) a la inversionista su pago mínimo requerido. 
+$\cdot$ $\boldsymbol{V<R^{MAX}}$ Hay un único valor de $D$, que le otorga (en promedio) a la inversionista su pago mínimo requerido. 
 
 Concluimos que el contrato es único. 
 
@@ -201,7 +199,9 @@ $$
 Sin hacer mayor análisis, notamos que el valor máximo del valor esperado del pago ($f\gamma$) no depende de $b$. Este máximo valor se alcanza cuando $D=f(\gamma+b)$. Ademas, para cualquier otra $D<f(\gamma+b)$, la empresa puede ofrecer un pago esperado tal que se celebre el contrato. Cambios en $b$ no afectan esta decision.  
 
 
-**10.5 (a) Show that in the model analyzed in equations (10.15)-(10.23) of Section 10.4, the unconditional distributions of $C^a_{2t}$ and $C^n_{2t}$ are not normal.} De la ecuación (10.15), sabemos que el consumo en el periodo dos esta dado por**
+**10.5 (a) Show that in the model analyzed in equations (10.15)-(10.23) of Section 10.4, the unconditional distributions of $C^a_{2t}$ and $C^n_{2t}$ are not normal.**
+
+De la ecuación (10.15), sabemos que el consumo en el periodo dos esta dado por**
 
 $$C_{2t}^a=(r+p_{t+1}-(1+r)p_t)X_t^a$$
 
