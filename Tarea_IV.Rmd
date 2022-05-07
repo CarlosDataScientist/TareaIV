@@ -478,9 +478,9 @@ ggplot2::ggplot(table.5, ggplot2::aes(x = as.numeric(Fecha),
 
 
 
-# Ejercicio 3 
 
-**Estudie al gobierno mexicano y a los corporativos mexicanos desde el punto de vista de su endeudamiento [1 hora, 1 punto cada inciso]:**
+
+**Ejercicio 3  Estudie al gobierno mexicano y a los corporativos mexicanos desde el punto de vista de su endeudamiento [1 hora, 1 punto cada inciso]:**
 
 ```{r librerias, echo=FALSE}
 #Librerias Necesarias
