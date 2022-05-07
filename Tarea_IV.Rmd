@@ -20,6 +20,198 @@ Realice los siguientes ejercicios con el equipo señalado.
 
 **1. Resuelva los ejercicios 10.4 y 10.5 (5a edición). Realice estos con ayuda de su laboratorista y entregue las soluciones escritas a máquina, utilizando LaTeX. [1 hora, 1 punto cada pregunta]**
 
+**10.4 A simpler approach to agency costs: limited pledgeability. (Lacker and Weinberg, 1989; Holmstrom and Tirole, 1998.) Consider the model of Section 10.2 with a different friction: there is no cost of verifying output, but the entrepreneur can hide fraction $1-f$ of the project’s output from the investor (with $0\le f\le1$). Thus the entrepreneur can only credibly promise to repay fraction $f$ of the project’s output**
+
+**a) Consider a project with expected payoff $\gamma$ that exceeds $1+r$. What is the condition for the project to be undertaken?**
+Denotaremos al producto del proyecto como $X$ que es una variable aleatoria que se distribuye $U(0,2\gamma)$. Ademas sabemos que $\mathbb{E}(X)=\gamma$. Tenemos que $\gamma>1+r$. La empresa acepta el proyecto si, en promedio, la ganancia de la empresa (el producto del proyecto menos el pago a la inversionista) es mayor que si invirtiera toda su riqueza ($W$) a la tasa libre de riesgo ($r$). Es decir, si 
+
+$$
+\gamma - \mathbb{E} (PMT) \geq (1+r) W \\ \gamma-(1+r)W \geq \mathbb{E} (PMT)
+$$
+donde $PMT$ representa el pago a la inversionista. Por otro lado, la inversionista toma una decision similar. Ella busca que el pago que reciba sea mayor, en promedio, a que si invirtiera sus recursos $(1-W)$ a la tasa $r$. Es decir
+$$\mathbb{E}(PMT)\ge(1+r)(1-W)$$
+En conjunto, ambas condiciones son
+$$(1+r)(1-W)\le\mathbb{E}(PMT)\le \gamma-(1+r)W$$
+
+**(b) Suppose the condition you found in part $(a)$ is satisfied with strict inequality. Is the contract between the investor and the entrepreneur uniquely determined? If so, what is the contract? If not, explain why.**
+
+El contrato entre la empresa y la inversionista es que la inversionista le presta $1-W$ a la empresa y esta promete pagarle una cantidad $D$. Denotamos al producto reportado como $\tilde{X}=fX$. Sabemos que $\tilde{X}\sim U(0,2f\gamma)$.
+\footnote{Sea $X\sim U(0,\theta)$ y $Y=cX$. Sabemos que $F_X(x)=x/\theta$. Entonces $F_Y(y)=\mathbb{P}(Y\leq y)=\mathbb{P}(cX\leq y)=\mathbb{P}(X\leq y/c)=F_X(y/c)=(y/c)/\theta=y/(c\theta)$. Por lo tanto $Y\sim U(0,c\theta)$.}
+
+Si $D\le2f\gamma$, tenemos dos casos
+\[PMT=\begin{cases} 
+\tilde{X} & \tilde{X}\le D\\
+D & \tilde{X}>D
+\end{cases}
+\]
+$$
+\mathbb{E}(PMT)=\mathbb{E}(\tilde{X}\mid \tilde{X}\leq D)\mathbb{P}(\tilde{X}\leq D)+\mathbb{E}(D\mid \tilde{X}>D)\mathbb{P}(\tilde{X}>D)
+$$
+$$
+\mathbb{E}(PMT)=\frac{D}{2}\frac{D}{2f\gamma}+D\frac{2f\gamma-D}{2f\gamma}
+$$
+$$
+\mathbb{E}(PMT)=\frac{D^2}{4f\gamma}+D\left(1-\frac{D}{2f\gamma}\right) 
+$$
+$$
+\mathbb{E}(PMT)=D-\frac{D^2}{4f\gamma}
+$$
+$$
+\mathbb{E}(PMT)=D\left(1-\frac{D}{4f\gamma}\right) \\
+$$
+
+Si $D>2f\gamma$, entonces $\tilde{X}\le D$ con probabilidad 1 y por lo tanto el pago a la inversionista siempre será $\tilde{X}$. En este caso 
+$$\mathbb{E}(PMT)=\mathbb{E}(\tilde{X})=\frac{2f\gamma+0}{2}=f\gamma$$
+En resumen tenemos que 
+\[R(D):=\mathbb{E}(PMT)=\begin{cases} 
+D\left(1-\frac{D}{4f\gamma}\right) & D\le2f\gamma\\
+f\gamma & D>2f\gamma
+\end{cases}
+\]
+
+Fijándonos en el primer caso
+$$ 
+\implies R'(D)=1-\frac{D}{2f\gamma}=0 \\ 
+\iff2f\gamma=D:=D^*
+$$
+
+Notemos que 
+$$
+R''(D)=-\frac{1}{2f\gamma}<0
+$$
+Por lo tanto, $D^*$ maximiza $R(D)$ y tenemos que
+$$
+R(D^*)=2f\gamma\left(1-\frac{2f\gamma}{4f\gamma}\right)\\
+\hspace{0.63cm}=f\gamma:=R^{MAX}
+$$
+
+![Picture](fig.png){ width="435" height="214" style="display: block; margin: 0 auto" }
+
+Hagamos un mayor análisis del contrato. Denotemos al pago mínimo requerido por la inversionista como $V=(1+r)(1-W)$. Tenemos tres casos:
+
+1) $\boldsymbol{V>R^{MAX}}$ La inversionista nunca le presta a la empresa, sin importar $r$.
+
+2) $\boldsymbol{V=R^{MAX}}$ Hay una infinidad de valores de $D$ que le otorgan (en promedio) su pago mínimo requerido. Sin embargo, el equilibrio competitivo es la mínima $D$ que le otorga su pago. Es decir, $D=2f\gamma$. La explicación es que si un inversionista  hace un préstamo con una $D$ mas alta, otros inversionistas podrían prestar a mejores términos. Poniendo presión a la baja a esta $D$ mas alta. 
+
+3) $\boldsymbol{V<R^{MAX}}$ Hay un único valor de $D$, que le otorga (en promedio) a la inversionista su pago mínimo requerido. 
+
+Concluimos que el contrato es único. 
+
+**(c) Limited pledgeability leads to inefficiency (relative to the case of no frictions) if $\gamma>1+r$ but the project is not undertaken. Describe whether each of the following can cause a project with $\gamma>1+r$ not to be undertaken:}
+Podemos responder esta pregunta simplemente fijándonos en $V=(1+r)(1-W)$.**
+
+1) **A fall in the entrepreneur’s wealth** $W$. 
+
+Si $W$ disminuye, $V$ aumenta. Podría aumentar tal que $V>R^{MAX}$, y en este caso, no se aceptaría el proyecto.
+
+2) **An increase in the fraction of the project the entrepreneur can hide,** $1-f$ **(that is, a fall in** $f$**)**.
+
+Tambien afectaria. Supongamos que $f$ disminuye a $f'$ y que inicialmente $D=D^*$ por lo que $R(D)=R^{MAX}=f\gamma$. Con el cambio, $R'^{MAX}=f'\gamma<R_{MAX}$. Entonces ahora la empresa es incapaz de ofrecerle el mismo pago esperado, por lo que la inversionista rechaza el proyecto.   
+
+3) **An increase in idiosyncratic risk. Concretely, suppose that (as in part (d) of Problem 10.3), the output of the project is distributed uniformly on** $[\gamma-b,\gamma+b]$ **rather than uniformly on** $[0,2\gamma]$**, and there is an increase in** $b$. 
+
+Resolvemos el ejercicio. $X\sim U(\gamma-b,\gamma+b)$ y $\tilde{X}=fX\sim U(f(\gamma-b),f(\gamma+b))$.\footnote{Sea $X\sim U(a,b)$ y $Y=cX$. Sabemos que $F_X(x)=x/(b-a)$. Entonces $F_Y(y)=\mathbb{P}(Y\le y)=\mathbb{P}(cX\le y)=\mathbb{P}(X\le y/c)=F_X(y/c)=(y/c)/(b-a)=y/(c(b-a))=y/(cb-ca)$. Por lo tanto $Y\sim U(ac,bc)$.}
+
+Notemos que 
+$$F_{\tilde{X}}(x)=\frac{x}{f(\gamma+b)-f(\gamma-b)}=\frac{x}{2fb}$$
+
+Si $D\le f(\gamma-b)$, la empresa le paga a la inversionista $D$ con probabilidad 1.
+$$\mathbb{E}(PMT)=D$$
+Si $f(\gamma-b)<D\le f(\gamma+b)$, tenemos dos casos
+\[PMT=\begin{cases} 
+\tilde{X} & \tilde{X}\le D\\
+D & \tilde{X}>D
+\end{cases}
+\]
+
+$$
+\mathbb{E}(PMT)=\mathbb{E}(\tilde{X}\mid \tilde{X}\le D)\mathbb{P}(\tilde{X}\le D)+\mathbb{E}(D\mid \tilde{X}>D)\mathbb{P}(\tilde{X}>D)
+$$
+$$
+\mathbb{E}(PMT)=\frac{f(\gamma-b)+D}{2}\frac{D}{2fb}+D\frac{2fb-D}{2fb}
+$$
+$$
+\mathbb{E}(PMT)=\frac{D}{4fb}\left(f\gamma+3fb-D\right)
+$$
+
+Si $D>f(\gamma+b)$, entonces $\tilde{X}\le D$ con probabilidad 1 y por lo tanto el pago a la inversionista siempre será $\tilde{X}$. En este caso 
+$$\mathbb{E}(PMT)=\mathbb{E}(\tilde{X})=\frac{f(\gamma-b)+f(\gamma+b)}{2}=\frac{2f\gamma}{2}=f\gamma$$
+En resumen tenemos que 
+\[R(D):=\mathbb{E}(PMT)=\begin{cases} 
+D & D\le f\gamma-fb\\
+\frac{D}{4fb}\left(f\gamma+3fb-D\right) & f\gamma-fb<D\le f\gamma+fb\\
+f\gamma & D>f\gamma+fb
+\end{cases}
+\]
+Fijándonos en el segundo caso
+$$
+\implies R'(D)=\frac{1}{4fb}\left(f\gamma+3fb-2D\right)=0\\
+\iff D^*=D=\frac{f\gamma+3fb}{2}
+$$
+
+Y por lo tanto
+$$
+R(D^*)=\frac{\frac{f\gamma+3fb}{2}}{4fb}\left(f\gamma+3fb-\frac{f\gamma+3fb}{2}\right)
+$$
+$$
+R(D^*)=\frac{\gamma+3b}{8b}\left(\frac{f\gamma+3fb}{2}\right)
+$$
+$$
+R(D^*)=\frac{f(\gamma+3b)^2}{16b}
+$$
+$$
+R(D^*)=\frac{f}{b}\left(\frac{\gamma+3b}{4}\right)^2:=R^{MAX} 
+$$
+
+![Picture](fig2.png){ width="435" height="214" style="display: block; margin: 0 auto" }
+
+Sin hacer mayor análisis, notamos que el valor máximo del valor esperado del pago ($f\gamma$) no depende de $b$. Este máximo valor se alcanza cuando $D=f(\gamma+b)$. Ademas, para cualquier otra $D<f(\gamma+b)$, la empresa puede ofrecer un pago esperado tal que se celebre el contrato. Cambios en $b$ no afectan esta decision.  
+
+
+**10.5 (a) Show that in the model analyzed in equations (10.15)-(10.23) of Section 10.4, the unconditional distributions of $C^a_{2t}$ and $C^n_{2t}$ are not normal.} De la ecuación (10.15), sabemos que el consumo en el periodo dos esta dado por**
+
+$$C_{2t}^a=(r+p_{t+1}-(1+r)p_t)X_t^a$$
+
+Dada la información en $t$, $p_t$ es una constante. Entonces el único factor estocastico es $p_{t+1}$, el cual es lineal en $\eta_{t+1}$. Entonces dada la información en $t$, $C_{2t}^a$ se distribuye normal.
+
+Sin embargo, si no tenemos información en $t$, entonces $C_{2t}^a$ contiene dos factores estocasticos, $p_t$ y $p_{t+1}$. Entonces basta con que veamos que $p_t$ y $p_{t+1}$ no sean independientes, para que no podamos asegurar que $C_{2t}^a$ es normal. 
+
+A pesar de que las $\eta's$ son independientes entre si, los precios no lo son, ya que el precio en un periodo depende, al menos, del precio en un periodo anterior. 
+
+Analogamente para $C_{2t}^n$.  
+
+**(b) Explain in a sentence or two why the analysis in the text, which uses the properties of lognormal distributions, is nonetheless correct.**
+
+La media y varianza de $C_{2t}^a$ condicionada a la información en $t$ son
+
+$$
+\mathbb{E}_t(C_{2t}^a)=(r+\mathbb{E}_t(p_{t+1})-(1+r)p_t)X_t^a:=\mu\\
+Var_t(C_{2t}^a)=Var_t(p_{t+1})(X_t^a)^2=V(X_t^a)^2:=W
+$$
+El punto es concluir que las preferencias de los agentes dependen únicamente de la media y la varianza del consumo. Entonces tenemos que
+
+$$
+\mathbb{E}(U(C))=\mathbb{E}\left(-e^{-2\gamma C}\right)
+$$
+$$
+\mathbb{E}(U(C))=-\mathbb{E}\left(e^{-2\gamma C}\right)
+$$
+$$
+\mathbb{E}(U(C))=-\mathbb{E}\left(\mathbb{E}_t(e^{-2\gamma C})\right)
+$$
+$$
+\mathbb{E}(U(C))=-\mathbb{E}\left(e^{-2\gamma\mu+2\gamma^2W}\right)
+$$
+$$
+\mathbb{E}(U(C))=-\mathbb{E}\left(e^{-2\gamma(\mu-\gamma W)}\right)
+$$
+$$
+\mathbb{E}(U(C))=-e^{2\gamma^2W}\mathbb{E}\left(e^{-2\gamma\mu}\right)
+$$
+
+$\mu$ contiene un factor estocastico el cual es $p_t$. Sin hacer mayor desarrollo, es claro ver que la utilidad esperada se maximiza cuando $\mu$ crece y cuando $W$ decrece. Lo cual indica que el agente se fija en la media-varianza de su consumo. Igual que en el caso donde condicionamos a la información dada en $t$. 
+
+
 **2. Estudie el financiamiento del sistema bancario en México a la luz del concepto de "transformación de madurez": [2 horas, 1 puntos cada inciso]**
 
 **(a) Obtenga, del SIE/Financiamiento e información financiera de intermediarios financieros/ del Banco de México, información de las formas de financiamiento del sector bancario (comercial) mexicano, y haga gráficas describiendo la evolución en el tiempo de las distintas tipos de financiamiento (depósitos a la vista, financiamiento de mercado y otros) y de la proporción que cada uno representa del total. Es decir, hay que producir dos gráficas de series de tiempo en la que el valor total está constituido por varias partes intermedias.**
