@@ -10,6 +10,38 @@ output:
   pdf_document: default
 ---
 
+\setcounter{secnumdepth}{0}
+
+\begin{titlepage}
+\begin{center}
+\line(1,0){300} \\
+[.25in]
+\huge{\bfseries Tarea 4}\\
+[2mm]
+\huge{\bfseries Mercados Financieros}\\
+[2mm]
+\line(1,0){200}\\
+[4cm]
+\textsc{\Large Garc\'ia Vara Job Benjam\'in Elihu}\\
+[.5cm]
+\textsc{\Large Gurrola Luna Alejandro}\\
+[.5cm]
+\textsc{\Large Ruiz Garc\'ia de la Cadena Carlos Gustavo}\\
+[.5cm]
+\textsc{\Large Ticona Gonz\'alez Ulises Amaru }\\
+[4cm]
+\textsc{\large Macroeconom\'ia II}\\
+[.5cm]
+\textsc{\large Profesor: 
+Santiago Bazdresch}\\
+[.5cm]
+\textsc{\large El Colegio de M\'exico}\\
+[.5cm]
+\textsc{\large Primavera 2022}\\
+\end{center}
+\end{titlepage}
+
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=T, message=FALSE, warning=FALSE, 
                        fig.align='center', eval=T)
