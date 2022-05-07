@@ -255,7 +255,7 @@ $$
 
 $\mu$ contiene un factor estocastico el cual es $p_t$. Sin hacer mayor desarrollo, es claro ver que la utilidad esperada se maximiza cuando $\mu$ crece y cuando $W$ decrece. Lo cual indica que el agente se fija en la media-varianza de su consumo. Igual que en el caso donde condicionamos a la información dada en $t$. 
 
-#Ejercicio 2
+# Ejercicio 2
 
 **Estudie el financiamiento del sistema bancario en México a la luz del concepto de "transformación de madurez": [2 horas, 1 puntos cada inciso]**
 
