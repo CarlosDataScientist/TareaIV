@@ -28,7 +28,7 @@ output:
 [.5cm]
 \textsc{\Large Ruiz Garc\'ia de la Cadena Carlos Gustavo}\\
 [.5cm]
-\textsc{\Large Ticona Gonz\'alez Ulises Amaru }\\
+\textsc{\Large Ticona Gonzalez Ulises Amaru }\\
 [4cm]
 \textsc{\large Macroeconom\'ia II}\\
 [.5cm]
@@ -47,12 +47,19 @@ knitr::opts_chunk$set(echo=T, message=FALSE, warning=FALSE,
                        fig.align='center', eval=T)
 ```
 
+\newpage
+\tableofcontents
+\newpage
 
-**1. Resuelva los ejercicios 10.4 y 10.5 (5a edición). Realice estos con ayuda de su laboratorista y entregue las soluciones escritas a máquina, utilizando LaTeX. [1 hora, 1 punto cada pregunta]**
+# Ejercicio 1
+**Resuelva los ejercicios 10.4 y 10.5 (5a edición). Realice estos con ayuda de su laboratorista y entregue las soluciones escritas a máquina, utilizando LaTeX. [1 hora, 1 punto cada pregunta]**
 
-**10.4 A simpler approach to agency costs: limited pledgeability. (Lacker and Weinberg, 1989; Holmstrom and Tirole, 1998.) Consider the model of Section 10.2 with a different friction: there is no cost of verifying output, but the entrepreneur can hide fraction $1-f$ of the project’s output from the investor (with $0\le f\le1$). Thus the entrepreneur can only credibly promise to repay fraction $f$ of the project’s output**
+## 10.4 
 
-**a) Consider a project with expected payoff $\gamma$ that exceeds $1+r$. What is the condition for the project to be undertaken?**
+**A simpler approach to agency costs: limited pledgeability. (Lacker and Weinberg, 1989; Holmstrom and Tirole, 1998.) Consider the model of Section 10.2 with a different friction: there is no cost of verifying output, but the entrepreneur can hide fraction $1-f$ of the project’s output from the investor (with $0\le f\le1$). Thus the entrepreneur can only credibly promise to repay fraction $f$ of the project’s output**
+
+### (a) 
+**Consider a project with expected payoff $\gamma$ that exceeds $1+r$. What is the condition for the project to be undertaken?**
 
 Denotaremos al producto del proyecto como $X$ que es una variable aleatoria que se distribuye $U(0,2\gamma)$. Ademas sabemos que $\mathbb{E}(X)=\gamma$. Tenemos que $\gamma>1+r$. La empresa acepta el proyecto si, en promedio, la ganancia de la empresa (el producto del proyecto menos el pago a la inversionista) es mayor que si invirtiera toda su riqueza ($W$) a la tasa libre de riesgo ($r$). Es decir, si 
 
@@ -64,7 +71,8 @@ $$\mathbb{E}(PMT)\ge(1+r)(1-W)$$
 En conjunto, ambas condiciones son
 $$(1+r)(1-W)\le\mathbb{E}(PMT)\le \gamma-(1+r)W$$
 
-**(b) Suppose the condition you found in part $(a)$ is satisfied with strict inequality. Is the contract between the investor and the entrepreneur uniquely determined? If so, what is the contract? If not, explain why.**
+### (b) 
+**Suppose the condition you found in part $(a)$ is satisfied with strict inequality. Is the contract between the investor and the entrepreneur uniquely determined? If so, what is the contract? If not, explain why.**
 
 El contrato entre la empresa y la inversionista es que la inversionista le presta $1-W$ a la empresa y esta promete pagarle una cantidad $D$. Denotamos al producto reportado como $\tilde{X}=fX$. Sabemos que $\tilde{X}\sim U(0,2f\gamma)$.
 \footnote{Sea $X\sim U(0,\theta)$ y $Y=cX$. Sabemos que $F_X(x)=x/\theta$. Entonces $F_Y(y)=\mathbb{P}(Y\leq y)=\mathbb{P}(cX\leq y)=\mathbb{P}(X\leq y/c)=F_X(y/c)=(y/c)/\theta=y/(c\theta)$. Por lo tanto $Y\sim U(0,c\theta)$.}
@@ -128,8 +136,10 @@ $\cdot$ $\boldsymbol{V<R^{MAX}}$ Hay un único valor de $D$, que le otorga (en p
 
 Concluimos que el contrato es único. 
 
-**(c) Limited pledgeability leads to inefficiency (relative to the case of no frictions) if $\gamma>1+r$ but the project is not undertaken. Describe whether each of the following can cause a project with $\gamma>1+r$ not to be undertaken:}
-Podemos responder esta pregunta simplemente fijándonos en $V=(1+r)(1-W)$.**
+### (c) 
+**Limited pledgeability leads to inefficiency (relative to the case of no frictions) if $\gamma>1+r$ but the project is not undertaken. Describe whether each of the following can cause a project with $\gamma>1+r$ not to be undertaken:**
+
+Podemos responder esta pregunta simplemente fijándonos en $V=(1+r)(1-W)$.
 
 1) **A fall in the entrepreneur’s wealth** $W$. 
 
@@ -198,8 +208,10 @@ $$
 
 Sin hacer mayor análisis, notamos que el valor máximo del valor esperado del pago ($f\gamma$) no depende de $b$. Este máximo valor se alcanza cuando $D=f(\gamma+b)$. Ademas, para cualquier otra $D<f(\gamma+b)$, la empresa puede ofrecer un pago esperado tal que se celebre el contrato. Cambios en $b$ no afectan esta decision.  
 
+## 10.5
 
-**10.5 (a) Show that in the model analyzed in equations (10.15)-(10.23) of Section 10.4, the unconditional distributions of $C^a_{2t}$ and $C^n_{2t}$ are not normal.**
+### (a) 
+**Show that in the model analyzed in equations (10.15)-(10.23) of Section 10.4, the unconditional distributions of $C^a_{2t}$ and $C^n_{2t}$ are not normal.**
 
 De la ecuación (10.15), sabemos que el consumo en el periodo dos esta dado por**
 
@@ -213,7 +225,8 @@ A pesar de que las $\eta's$ son independientes entre si, los precios no lo son, 
 
 Analogamente para $C_{2t}^n$.  
 
-**(b) Explain in a sentence or two why the analysis in the text, which uses the properties of lognormal distributions, is nonetheless correct.**
+### (b) 
+**Explain in a sentence or two why the analysis in the text, which uses the properties of lognormal distributions, is nonetheless correct.**
 
 La media y varianza de $C_{2t}^a$ condicionada a la información en $t$ son
 
@@ -242,10 +255,12 @@ $$
 
 $\mu$ contiene un factor estocastico el cual es $p_t$. Sin hacer mayor desarrollo, es claro ver que la utilidad esperada se maximiza cuando $\mu$ crece y cuando $W$ decrece. Lo cual indica que el agente se fija en la media-varianza de su consumo. Igual que en el caso donde condicionamos a la información dada en $t$. 
 
+#Ejercicio 2
 
-**2. Estudie el financiamiento del sistema bancario en México a la luz del concepto de "transformación de madurez": [2 horas, 1 puntos cada inciso]**
+**Estudie el financiamiento del sistema bancario en México a la luz del concepto de "transformación de madurez": [2 horas, 1 puntos cada inciso]**
 
-**(a) Obtenga, del SIE/Financiamiento e información financiera de intermediarios financieros/ del Banco de México, información de las formas de financiamiento del sector bancario (comercial) mexicano, y haga gráficas describiendo la evolución en el tiempo de las distintas tipos de financiamiento (depósitos a la vista, financiamiento de mercado y otros) y de la proporción que cada uno representa del total. Es decir, hay que producir dos gráficas de series de tiempo en la que el valor total está constituido por varias partes intermedias.**
+## (a)
+**Obtenga, del SIE/Financiamiento e información financiera de intermediarios financieros/ del Banco de México, información de las formas de financiamiento del sector bancario (comercial) mexicano, y haga gráficas describiendo la evolución en el tiempo de las distintas tipos de financiamiento (depósitos a la vista,** financiamiento de mercado y otros) y de la proporción que cada uno representa del total. Es decir, hay que producir dos gráficas de series de tiempo en la que el valor total está constituido por varias partes intermedias.
 
 Para la siguiente respuesta se utiliza el cuadro `Principales Activos y Pasivos de la banca comercial (metodología 2018)`. La pregunta habla acerca de los depósitos a la vista y el financiamiento de mercado. Entendemos como depósitos a la vista aquellos que son de exigibilidad inmediata, mientras que excluimos de esta tipificación los depósitos a plazo. Por otro lado, definimos el financiamiento de mercado aquel que no incluya al sector público, excluyendo también a las empresas productivas del estado o empresas de participación estatal y órganos decentralizados. Se presenta una tabla con la tipificación que se acaba de definir con el nombre y número de series de banxico. 
 
@@ -372,7 +387,8 @@ plot.3 <- ggplot2::ggplot(table.2,  ggplot2::aes(x = Fecha,
 plot.3 
 ```
 
-**(b) Obtenga de la misma fuente información del tipo de créditos que el sistema bancario (comercial) mexicano otorga, y haga gráficas describiendo la evolución en el tiempo de distintos tipos de crédito y de la proporción que cada uno representa del total. Al igual que en el inciso anterior, hay que producir dos gráficas de series de tiempo en la que el valor total está constituido por varias partes intermedias.**
+## (b)
+**Obtenga de la misma fuente información del tipo de créditos que el sistema bancario (comercial) mexicano otorga, y haga gráficas describiendo la evolución en el tiempo de distintos tipos de crédito y de la proporción que cada uno representa del total. Al igual que en el inciso anterior, hay que producir dos gráficas de series de tiempo en la que el valor total está constituido por varias partes intermedias.**
 
 Para la siguiente respuesta se utiliza el cuadro `Banca Comercial, Financiamiento detalle (metodología 2018)`. En este caso solo nos concentraremos en el crédito del sector privado, además que se agrega una columna extra de la naturaleza del préstamo. 
 
@@ -547,7 +563,8 @@ plot.8 <- ggplot2::ggplot(table.2,  ggplot2::aes(x = Fecha,
 plot.8 
 ```
 
-**(c) Explique si los datos son consistentes con la hipótesis de que los bancos hacen transformación de madurez o si no lo son y porqué. Para ello posiblemente tenga que hacer supuestos (razonables) o buscar información adicional acerca de la madurez de los distintos tipos de financiamiento y crédito otorgado.**
+## (c)
+**Explique si los datos son consistentes con la hipótesis de que los bancos hacen transformación de madurez o si no lo son y porqué. Para ello posiblemente tenga que hacer supuestos (razonables) o buscar información adicional acerca de la madurez de los distintos tipos de financiamiento y crédito otorgado.**
 
 Supuestos:
 
@@ -660,12 +677,14 @@ plot.9 <- ggplot2::ggplot(table.4,  ggplot2::aes(x = Fecha,
 plot.9
 ```
 
-**(d) Explique qué implica la evolución de las formas de financiamiento y los tipos de crédito otorgados que observó en los incisos anteriores para la estabilidad del sistema financiero a la luz del modelo Diamond-Dybvig.**
+## (d) 
+**Explique qué implica la evolución de las formas de financiamiento y los tipos de crédito otorgados que observó en los incisos anteriores para la estabilidad del sistema financiero a la luz del modelo Diamond-Dybvig.**
 
 Como se mostró en los puntos anteriores, los agentes parecen haber aumentado su preferencia sobre la liquidez que otorgan los depósitos a la vista con el aumento en la participación del total de pasivos.  Este punto puede ser preocupante ya que el crédito al consumo que es a corto plazo, que es de ayuda para financiar el retiro de los depósitos a la vista, cayó durante la pandemia, mientras que el crédito a la vivienda se mantuvo con un crecimiento estable. Como se propuso en el inciso anterior, la medición de la transformación de madurez bancaria nos arroja un aumento desde el 2015 y que solo se detuvo, especulamos, momentaneamente por la pandemia. Estos factores en su conjunto pueden llevar a preguntarnos si son condiciones suficientes para dudar en los bancos y producir una corrida financiera. Ciertamente, no. Sin embargo, la participación de crédito a largo plazo ha ido en aumento, motivado por boom demográfico que ha tenido el país en las últimas décadas, y los depósitos a la vista también, estos dos factores en su conjunto nos indican el debilitamiento del sistema financiero mexicano por el canal de ahorro de los agentes y su preferencia por los depósitos a la vista. 
 
 
-**(e) A propósito, documente el incremento dramático a lo largo del tiempo en el crédito hipotecario como proporción del PIB.**
+## (e) 
+**A propósito, documente el incremento dramático a lo largo del tiempo en el crédito hipotecario como proporción del PIB.**
 
 La serie que se utiliza para la gráfica es la serie `494782 := PIB a precios corrientes`. Se puede apreciar el dramático incremento.
 
@@ -702,8 +721,9 @@ ggplot2::ggplot(table.5, ggplot2::aes(x = as.numeric(Fecha),
 
 
 
+# Ejercicio 3
 
-**Ejercicio 3  Estudie al gobierno mexicano y a los corporativos mexicanos desde el punto de vista de su endeudamiento [1 hora, 1 punto cada inciso]:**
+**Estudie al gobierno mexicano y a los corporativos mexicanos desde el punto de vista de su endeudamiento [1 hora, 1 punto cada inciso]:**
 
 ```{r librerias, echo=FALSE}
 #Librerias Necesarias
@@ -711,7 +731,8 @@ pacman::p_load(ggplot2,dplyr)
 ```
 
 
-## (a) Utilice datos del SIE/Valores en Circulación y de SIE/Finanzas públicas del Banco de México para describir la evolución a lo largo del tiempo de la composición de la deuda del gobierno mexicano por tipo de instrumento, madurez y moneda. Señale la implicación de lo que encuentre para el riesgo de impago.
+## (a) 
+**Utilice datos del SIE/Valores en Circulación y de SIE/Finanzas públicas del Banco de México para describir la evolución a lo largo del tiempo de la composición de la deuda del gobierno mexicano por tipo de instrumento, madurez y moneda. Señale la implicación de lo que encuentre para el riesgo de impago.**
 
 Con base en los datos obtenidos del SIE del Banco de México, se tiene que la deuda del gobierno mexicano por tipo de instrumento tiene la siguiente composición:
 
@@ -815,7 +836,8 @@ p5<-ggplot(datos, aes(x = FECHA, y = Porcentaje)) +
 
 Notemos que la deuda externa está en moneda extranjera, por lo que una depreciación de la moneda local podría ser un factor de riesgo de impago. En México la deuda interna es mayor que la externa. 
 
-## (b)  Utilice datos del SIE/Valores en Circulación o para describir la composición a lo largo del tiempo de la deuda del sector privado no financiero mexicano por madurez y moneda. Señale la implicación de lo que encuentre para el riesgo de impago.
+## (b) 
+**Utilice datos del SIE/Valores en Circulación o para describir la composición a lo largo del tiempo de la deuda del sector privado no financiero mexicano por madurez y moneda. Señale la implicación de lo que encuentre para el riesgo de impago.**
 
 La deuda del sector privado no financiero mexicano por madurez se compone de la siguiente manera: 
 
@@ -873,7 +895,8 @@ p4<-ggplot(datos, aes(x = FECHA, y = Porcentaje)) +
 Con base en el gráfico anterior, la deuda del sector privado no financiero mexicano está compuesta en su mayoria por moneda local. Sin embargo, hay un porcentaje de deuda en moneda extranjera que puede ser la causa del riesgo de impago, esto podría ocurrir si la moneda extranjera se aprecia y la deuda crece de tal forma que la empresa ya no pueda liquidarla.
 
 
-## (c) Describa la evolución de las cifras anteriores durante la pandemia de Covid-19, es decir entre principios de 2020 y hasta la fecha.
+## (c) 
+**Describa la evolución de las cifras anteriores durante la pandemia de Covid-19, es decir entre principios de 2020 y hasta la fecha.**
 
 Para este ejercicio supondremos que el inicio de la pandemia en México fue el 30 de marzo de 2020 cuando el Consejo de Salubridad General decreta emergencia sanitaria por el virus SARS-CoV-2. Este decreto, cerró buena parte de los servicios de los gobiernos de todos los niveles, así como de los otros poderes de la Unión: Judicial y Legislativo.
 
@@ -917,8 +940,9 @@ Lo anterior nos permite observar como el sector privado se protegió ante la sit
 
 
 
+# Ejercicio 4 
 
-**4. Proponga una mejora al archivo Diccionario de Economía utilizando github.**
+**Proponga una mejora al archivo Diccionario de Economía utilizando github.**
 
 Se proponen los siguientes conceptos (Fuente: The Economist):
 
